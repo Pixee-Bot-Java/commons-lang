@@ -14,6 +14,7 @@
  */
 package com.norconex.commons.lang.exec;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -282,8 +283,7 @@ public class SystemCommand {
                     StringUtils.join(cleanCommand, " "));
         }
         try {
-            process = Runtime.getRuntime().exec(
-                    cleanCommand, environmentArray(), workdir);
+            process = SystemCommand.runCommand(Runtime.getRuntime(), cleanCommand, environmentArray(), workdir);
         } catch (IOException e) {
             throw new SystemCommandException("Could not execute command: "
                     + toString(), e);
