@@ -14,6 +14,7 @@
  */
 package com.norconex.commons.lang.io;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -266,7 +267,7 @@ public final class IOUtil {
                 new InputStreamReader(is, safeEncoding));
         List<String> lines = new ArrayList<>(lineQty);
         String line;
-        while ((line = br.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
             lines.add(0, line);
             if (lines.size() > lineQty) {
                 lines.remove(lineQty);
@@ -335,7 +336,7 @@ public final class IOUtil {
                 new InputStreamReader(is, safeEncoding));
         List<String> lines = new ArrayList<>(lineQty);
         String line;
-        while ((line = br.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
             lines.add(line);
             if (lines.size() == lineQty) {
                 break;

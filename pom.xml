@@ -59,7 +59,8 @@
     <!-- Test and provided -->      
     <lombok.version>1.18.32</lombok.version>
     
-  </properties>
+  <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
+ </properties>
 
   <licenses>
     <license>
@@ -295,8 +296,11 @@
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
-
-  </dependencies>
+  <dependency>
+   <groupId>io.github.pixee</groupId>
+   <artifactId>java-security-toolkit</artifactId>
+  </dependency>
+ </dependencies>
 
   <build>
 
@@ -886,4 +890,13 @@
     <module>javadoc-resources</module>
   </modules>
 -->
+ <dependencyManagement>
+  <dependencies>
+   <dependency>
+    <groupId>io.github.pixee</groupId>
+    <artifactId>java-security-toolkit</artifactId>
+    <version>${versions.java-security-toolkit}</version>
+   </dependency>
+  </dependencies>
+ </dependencyManagement>
 </project>
