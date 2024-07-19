@@ -14,6 +14,7 @@
  */
 package com.norconex.commons.lang.file;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -677,7 +678,7 @@ public final class FileUtil {
             var remainingLinesToRead = numberOfLinesToRead;
             var line = StringUtils.EMPTY;
             while(line != null && remainingLinesToRead-- > 0){
-                 line = reader.readLine();
+                 line = BoundedLineReader.readLine(reader, 5_000_000);
                  if ((!stripBlankLines || StringUtils.isNotBlank(line))
                          && (filter == null || filter.test(line))) {
                      lines.add(line);
@@ -757,7 +758,7 @@ public final class FileUtil {
             var remainingLinesToRead = numberOfLinesToRead;
 
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 if (remainingLinesToRead-- <= 0) {
                     break;
                 }

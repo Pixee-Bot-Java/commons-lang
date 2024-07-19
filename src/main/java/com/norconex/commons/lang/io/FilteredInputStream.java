@@ -14,6 +14,7 @@
  */
 package com.norconex.commons.lang.io;
 
+import io.github.pixee.security.BoundedLineReader;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -108,7 +109,7 @@ public class FilteredInputStream extends InputStream { // NOSONAR
             return false;
         }
         String line;
-        while ((line = bufferedInput.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(bufferedInput, 5_000_000)) != null) {
             if (filter.test(line)) {
                 line += "\n"; //NOSONAR
                 lineStream = new ByteArrayInputStream(line.getBytes(encoding));
