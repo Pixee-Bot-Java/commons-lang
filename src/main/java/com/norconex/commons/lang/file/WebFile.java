@@ -14,6 +14,8 @@
  */
 package com.norconex.commons.lang.file;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -192,7 +194,7 @@ public class WebFile implements Path {
 
     private static URL toURL(String url) {
         try {
-            return new URL(url);
+            return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Not a valid URL: " + url, e);
         }
@@ -204,7 +206,7 @@ public class WebFile implements Path {
         URL targetURL = url;
         try {
             if (targetURL.toString().contains(".zip!")) {
-                targetURL = new URL("jar:" + url);
+                targetURL = Urls.create("jar:" + url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             }
             FileUtils.copyInputStreamToFile(
                     URLStreamer.stream(targetURL), localFile.toFile());
