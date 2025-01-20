@@ -14,6 +14,7 @@
  */
 package com.norconex.commons.lang.xml;
 
+import static io.github.pixee.security.XMLInputFactorySecurity.hardenFactory;
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD;
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_SCHEMA;
 import static javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING;
@@ -138,7 +139,7 @@ public final class XMLUtil {
     }
 
     public static XMLInputFactory createXMLInputFactory() {
-        var factory = XMLInputFactory.newInstance();
+        var factory = hardenFactory(XMLInputFactory.newInstance());
         factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
         factory.setProperty(
                 "javax.xml.stream.isSupportingExternalEntities", false);
