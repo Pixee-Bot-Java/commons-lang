@@ -14,6 +14,8 @@
  */
 package com.norconex.commons.lang.url;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -193,7 +195,7 @@ public class URLNormalizer implements Serializable {
         this.url = url.trim();
         // Check it is a valid URL.
         try {
-            new URL(this.url);
+            Urls.create(this.url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new URLException("Invalid URL: " + url, e);
         }
@@ -951,7 +953,7 @@ public class URLNormalizer implements Serializable {
             return null;
         }
         try {
-            return new URL(url);
+            return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             LOG.info("URL does not appear to be valid and cannot be parsed:"
                     + url, e);
