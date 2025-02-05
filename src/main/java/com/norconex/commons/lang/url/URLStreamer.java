@@ -14,6 +14,8 @@
  */
 package com.norconex.commons.lang.url;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -150,7 +152,7 @@ public final class URLStreamer {
                 var p = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
                         proxy.getHostName(), proxy.getPort()));
                 //Authenticator.
-                conn = new URL(url).openConnection(p);
+                conn = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection(p);
                 if (proxyCreds != null) {
                     LOG.debug("Streaming with proxy credentials.");
                     conn.setRequestProperty("Proxy-Authorization",
@@ -158,7 +160,7 @@ public final class URLStreamer {
                                     proxyCreds.getPassword()));
                 }
             } else {
-                conn = new URL(url).openConnection();
+                conn = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
             }
             if (creds != null) {
                 if (LOG.isDebugEnabled()) {

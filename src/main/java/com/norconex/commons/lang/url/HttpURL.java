@@ -14,6 +14,8 @@
  */
 package com.norconex.commons.lang.url;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -111,7 +113,7 @@ public class HttpURL implements Serializable {
         if (u.matches("[a-zA-Z][a-zA-Z0-9\\+\\-\\.]*:.*")) {
             URL urlwrap;
             try {
-                urlwrap = new URL(u);
+                urlwrap = Urls.create(u, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             } catch (MalformedURLException e) {
                 throw new URLException("Could not interpret URL: " + u, e);
             }
@@ -278,7 +280,7 @@ public class HttpURL implements Serializable {
     public URL toURL() {
         var url = toString();
         try {
-            return new URL(url);
+            return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new URLException("Cannot convert to URL: " + url, e);
         }

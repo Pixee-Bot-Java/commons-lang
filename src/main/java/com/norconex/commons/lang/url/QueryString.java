@@ -14,6 +14,8 @@
  */
 package com.norconex.commons.lang.url;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -185,7 +187,7 @@ public class QueryString extends Properties {
             return url;
         }
         try {
-            return new URL(applyOnURL(url.toString()));
+            return Urls.create(applyOnURL(url.toString()), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new URLException("Cannot applyl query string to: " + url, e);
         }

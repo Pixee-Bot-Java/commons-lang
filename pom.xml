@@ -59,7 +59,7 @@
     <!-- Test and provided -->      
     <lombok.version>1.18.32</lombok.version>
     
-  <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
+  <versions.java-security-toolkit>1.2.1</versions.java-security-toolkit>
  </properties>
 
   <licenses>
